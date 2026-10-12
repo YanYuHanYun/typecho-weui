@@ -3,8 +3,8 @@
 一个基于腾讯 [WeUI](https://weui.io) 的 Typecho 主题，样式对齐官方风格，内置站点级无刷新（PJAX）、
 明暗配色、文章目录、相册、点赞打赏分享、评论富文本，以及一个**自研的完整音乐播放器**（含逐字歌词）。
 
-- **主题名**：WeUI（基础版）
-- **依赖**：Typecho、PHP（仅依赖主题内 `libs/Meting.php` 一个音乐核心库）
+- **主题名**：WeUI ｜ **作者**：烟雨寒云 ｜ **演示站点**：<https://yyhy.me/>
+- **依赖**：Typecho 1.2+、PHP 7.4+（仅依赖主题内 `libs/Meting.php` 一个音乐核心库）
 - **资源全部本地内置**，不依赖任何外网 CDN（WeUI、highlight.js、Fancybox、qrcode 均在 `assets/`）
 
 ---
@@ -318,10 +318,7 @@ theme/
 │   └── emoticons/          # 贴纸 / 表情图（含 manifest.json）
 ├── libs/
 │   └── Meting.php          # 音乐核心库（Meting 1.5.7）
-├── tools/
-│   ├── build-weui-subset.py # 提取 WeUI 子集
-│   ├── fetch-emoticons.py   # 生成表情清单
-│   └── sync-live.py         # 一键同步到服务器
+├── cache/                  # 音乐接口本地缓存（运行时生成，不进版本库）
 ├── index.php               # 文章列表 / 通用归档
 ├── post.php                # 文章详情（相册自动切换）
 ├── page.php                # 独立页面
