@@ -1,0 +1,5 @@
+# 运行时缓存（歌词等），不进版本库
+cache/
+*.log
+.DS_Store
+Thumbs.db

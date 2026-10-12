@@ -1,0 +1,191 @@
+/*!
+ * 代码高亮配色（配合 highlight.js，主题无关的简约配色）
+ * 通过 CSS 变量跟随明暗模式切换，无需两份样式。
+ * 覆盖 classes：hljs-* 语义 token。
+ */
+
+/* ---- 亮色（默认） ---- */
+:root,
+body,
+.wx-root {
+  --wf-hl-fg: #24292e;
+  --wf-hl-comment: #6a737d;
+  --wf-hl-keyword: #d73a49;
+  --wf-hl-string: #032f62;
+  --wf-hl-number: #005cc5;
+  --wf-hl-title: #6f42c1;
+  --wf-hl-type: #005cc5;
+  --wf-hl-attr: #005cc5;
+  --wf-hl-built_in: #e36209;
+  --wf-hl-literal: #005cc5;
+  --wf-hl-meta: #6a737d;
+  --wf-hl-tag: #22863a;
+  --wf-hl-name: #22863a;
+  --wf-hl-symbol: #e36209;
+  --wf-hl-deletion: #b31d28;
+  --wf-hl-addition: #22863a;
+  --wf-hl-bg: #f6f8fa;
+  --wf-hl-selection: #c8e1ff;
+}
+
+/* ---- 暗色 ---- */
+.wx-root[data-weui-theme='dark'],
+body[data-weui-theme='dark'] {
+  --wf-hl-fg: #c9d1d9;
+  --wf-hl-comment: #8b949e;
+  --wf-hl-keyword: #ff7b72;
+  --wf-hl-string: #a5d6ff;
+  --wf-hl-number: #79c0ff;
+  --wf-hl-title: #d2a8ff;
+  --wf-hl-type: #79c0ff;
+  --wf-hl-attr: #79c0ff;
+  --wf-hl-built_in: #ffa657;
+  --wf-hl-literal: #79c0ff;
+  --wf-hl-meta: #8b949e;
+  --wf-hl-tag: #7ee787;
+  --wf-hl-name: #7ee787;
+  --wf-hl-symbol: #ffa657;
+  --wf-hl-deletion: #ffdcd7;
+  --wf-hl-addition: #aff5b4;
+  --wf-hl-bg: #161b22;
+  --wf-hl-selection: #1f4b8f;
+}
+
+@media (prefers-color-scheme: dark) {
+  .wx-root:not([data-weui-theme='light']),
+  body:not([data-weui-theme='light']) {
+    --wf-hl-fg: #c9d1d9;
+    --wf-hl-comment: #8b949e;
+    --wf-hl-keyword: #ff7b72;
+    --wf-hl-string: #a5d6ff;
+    --wf-hl-number: #79c0ff;
+    --wf-hl-title: #d2a8ff;
+    --wf-hl-type: #79c0ff;
+    --wf-hl-attr: #79c0ff;
+    --wf-hl-built_in: #ffa657;
+    --wf-hl-literal: #79c0ff;
+    --wf-hl-meta: #8b949e;
+    --wf-hl-tag: #7ee787;
+    --wf-hl-name: #7ee787;
+    --wf-hl-symbol: #ffa657;
+    --wf-hl-deletion: #ffdcd7;
+    --wf-hl-addition: #aff5b4;
+    --wf-hl-bg: #161b22;
+    --wf-hl-selection: #1f4b8f;
+  }
+}
+
+/* 代码块容器 */
+.weui-article pre,
+.comment-content pre {
+  color: var(--wf-hl-fg);
+  background-color: var(--wf-hl-bg);
+  position: relative;
+}
+
+.weui-article pre code,
+.comment-content pre code {
+  color: var(--wf-hl-fg);
+  background: transparent;
+}
+
+.hljs {
+  color: var(--wf-hl-fg);
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--wf-hl-comment);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-doctag,
+.hljs-formula {
+  color: var(--wf-hl-keyword);
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta .hljs-string {
+  color: var(--wf-hl-string);
+}
+
+.hljs-number,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-literal {
+  color: var(--wf-hl-number);
+}
+
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.function_,
+.hljs-section,
+.hljs-selector-id {
+  color: var(--wf-hl-title);
+}
+
+.hljs-type,
+.hljs-class .hljs-title,
+.hljs-params {
+  color: var(--wf-hl-type);
+}
+
+.hljs-attr,
+.hljs-property,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-pseudo {
+  color: var(--wf-hl-attr);
+}
+
+.hljs-built_in,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: var(--wf-hl-built_in);
+}
+
+.hljs-meta,
+.hljs-meta .hljs-keyword {
+  color: var(--wf-hl-meta);
+}
+
+.hljs-tag,
+.hljs-name {
+  color: var(--wf-hl-tag);
+}
+
+.hljs-deletion {
+  color: var(--wf-hl-deletion);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 600;
+}
+
+/* 代码块可复制按钮（由 theme.js 注入） */
+.wf-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 10px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--weui-FG-1);
+  background-color: var(--weui-BG-2);
+  cursor: pointer;
+}
+
+.wf-copy-btn:active {
+  opacity: 0.6;
+}

@@ -1,0 +1,3146 @@
+/* ------------------------------------
+ * WeUI 主题 —— 主题自有样式
+ *
+ * 这里只放 WeUI 核心没有提供的“胶水”样式（页面容器、站点头部、评论等）。
+ * WeUI 组件样式全部来自 assets/weui.css（官方 dist 的逐条摘录，未改动）。
+ * --------------------------------- */
+
+html,
+body {
+  height: 100%;
+}
+
+/* WeUI 官方示例中 body/.page 使用 --weui-BG-0 作为页面底色（随深浅色自适应） */
+body {
+  background-color: var(--weui-BG-0);
+  /* 页面左右统一留白：站点头部内容、搜索框都用它对齐 */
+  --site-gutter: 16px;
+}
+
+/* 配色在 <body> 解析前先落到 <html> 上，避免刷新时闪一下另一种底色 */
+html[data-wf-theme='light'] {
+  background-color: #ededed;
+  color-scheme: light;
+}
+
+html[data-wf-theme='dark'] {
+  background-color: #111;
+  color-scheme: dark;
+}
+
+/* 页面容器：移动端全宽，桌面端居中；文章页内容块用 WeUI 的 --weui-BG-2 */
+.page {
+  box-sizing: border-box;
+  min-height: 100%;
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+/* 文章页正文区：做成一张与首页列表一致的白色内容块，
+   与站点头部之间留出 --weui-BG-0 的灰色间隙（见 header 后的 10px） */
+.page.article {
+  background-color: transparent;
+}
+
+.article-wrap {
+  margin-top: 10px;
+  background-color: var(--weui-BG-2);
+}
+
+/* 站点头部（无下边框） */
+.site-header {
+  padding: 24px var(--site-gutter) 16px;
+  background-color: var(--weui-BG-2);
+}
+
+/* 去掉 weui-panel 的上下边框（官方组件用 ::before / ::after 画上下细线） */
+.weui-panel::before,
+.weui-panel::after {
+  display: none;
+}
+
+/* 可选：将站点头部固定在页面顶部（后台外观设置里切换） */
+.site-header--fixed {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* 主标题 + 副标题同一行，副标题字号更小 */
+.site-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.site-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--weui-FG-0);
+}
+
+.site-desc {
+  font-size: 13px;
+  color: var(--weui-FG-1);
+}
+
+.site-nav {
+  margin-top: 12px;
+  font-size: 0;
+}
+
+.site-nav a {
+  display: inline-block;
+  margin-right: 16px;
+  font-size: 15px;
+  color: var(--weui-FG-0);
+}
+
+.site-nav a.current {
+  color: var(--weui-LINK);
+}
+
+/* 导航右侧的搜索按钮：和导航文字同色，垂直对齐 */
+.site-search-toggle {
+  display: inline-block;
+  vertical-align: -3px;
+  padding: 0;
+  margin-left: 2px;
+  border: none;
+  background: transparent;
+  color: var(--weui-FG-1);
+  line-height: 1;
+}
+
+.site-search-toggle:active {
+  color: var(--weui-BRAND);
+}
+
+/* 头部展开的搜索框（WeUI 搜索栏） */
+.site-search {
+  margin: 10px calc(-1 * var(--site-gutter)) calc(-1 * 16px);
+}
+
+.site-search[hidden] {
+  display: none;
+}
+
+.site-search .weui-search-bar {
+  padding: 10px var(--site-gutter);
+  /* 头部本身是 BG-2，这里让搜索栏融进头部 */
+  background-color: transparent;
+}
+
+.site-search .weui-search-bar__form {
+  background-color: var(--weui-BG-0);
+}
+
+.site-search__icon {
+  flex: none;
+  margin-left: 10px;
+  color: var(--weui-FG-2);
+}
+
+.site-search .weui-search-bar__input {
+  padding-left: 8px;
+  font-size: 15px;
+}
+
+.site-search__clear {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  margin: 0 12px 0 8px;
+  border: none;
+  background: transparent;
+  color: var(--weui-FG-2);
+}
+
+.site-search__clear[hidden] {
+  display: none;
+}
+
+.site-search .weui-search-bar__cancel-btn {
+  margin-left: 8px;
+  border: none;
+  background: transparent;
+  color: var(--weui-LINK);
+  font-size: 15px;
+}
+
+/* 归档标题 */
+.archive-title {
+  margin: 0;
+  padding: 24px 16px 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--weui-FG-1);
+}
+
+/* 图文列表缩略图：官方 appmsg 的 hd 为 60x60，这里放大到 80x80 并裁切，
+   让照片缩略图更清晰；无图时列表项自动退化为 weui-media-box_text。 */
+.weui-media-box_appmsg .weui-media-box__hd {
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+}
+
+.weui-media-box_appmsg .weui-media-box__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* 卡片容器：官方 appmsg 会把整个盒子设成 flex，导致元信息只能挤在图片右侧。
+   这里把盒子的 flex 去掉，改由内层的 .wf-card__main 承担「图 + 文」的横排，
+   元信息作为盒子的直接子元素，独占图片下方的一整行。 */
+.weui-media-box_appmsg.wf-card {
+  display: block;
+}
+
+.wf-card__main {
+  display: flex;
+  align-items: center;
+}
+
+/* 无图列表项：整条用 <div> 承载（只有标题是链接），块级显示让 16px 内边距正常生效 */
+.weui-media-box_text {
+  display: block;
+}
+
+/* 列表卡片标题：只有标题是链接（点击进入文章），颜色沿用正文色、不加下划线 */
+a.weui-media-box__title.wf-card-title,
+.wf-card-title {
+  display: block;
+  color: var(--weui-FG-0);
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+a.weui-media-box__title.wf-card-title:active {
+  color: var(--weui-FG-1);
+}
+
+/* 列表卡片元信息：独占一行，四个字段各带图标 */
+.weui-media-box__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-top: 12px;
+  line-height: 1.4;
+  overflow: visible;
+}
+
+.weui-media-box__info .weui-media-box__info__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  float: none;
+  padding: 0;
+  border: 0;
+}
+
+/* 列表/正文里的图标：与文字基线对齐、颜色随文字 */
+.wf-icon {
+  flex: none;
+  vertical-align: -0.15em;
+  color: currentColor;
+  opacity: 0.85;
+}
+
+/* 元信息里的链接（作者 / 分类）：颜色与其它字段一致，不用链接色、不加下划线 */
+.wf-meta-link,
+a.wf-meta-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wf-meta-link:active {
+  opacity: 0.6;
+}
+
+/* 正文里的时间（可点击切换完整时间）在元信息里同样继承颜色 */
+.article-meta .wf-time,
+.weui-media-box__info .wf-time {
+  color: inherit;
+}
+
+/* 文章正文容器：收紧标题 / 作者 / 正文之间的留白（WeUI 默认上下各 48px 太松） */
+.weui-article {
+  padding: 28px 24px 20px;
+}
+
+/* 大标题下原本有 48px 的 margin，配合作者信息会让「标题—作者—正文」很空 */
+.weui-article h1 {
+  margin-bottom: 10px;
+}
+
+/* 正文 section 与后面的标签/上下篇之间也收紧一些 */
+.weui-article section {
+  margin-bottom: 28px;
+}
+
+/* 文章元信息（紧贴居中的大标题） */
+.article-meta {
+  margin: 0 0 18px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--weui-FG-2);
+}
+
+.article-meta a,
+.article-meta time {
+  margin: 0 4px;
+  color: var(--weui-FG-2);
+}
+
+/* 元信息分隔符：作者 | 时间 | 分类 | 阅读数 */
+.article-meta__sep {
+  margin: 0 2px;
+  color: var(--weui-FG-3);
+}
+
+.article-footer {
+  padding: 0 24px 24px;
+  font-size: 14px;
+  color: var(--weui-FG-1);
+}
+
+.article-footer a {
+  color: var(--weui-LINK);
+}
+
+/* 上一篇 / 下一篇 */
+.post-near {
+  margin: 0 24px;
+  padding: 16px 0;
+  border-top: 1px solid var(--weui-FG-3);
+  font-size: 14px;
+  line-height: 2;
+  color: var(--weui-FG-1);
+}
+
+.post-near a {
+  color: var(--weui-LINK);
+}
+
+/* 分页 */
+.page-navigator {
+  list-style: none;
+  margin: 0;
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.page-navigator li {
+  display: inline-block;
+  margin: 0 4px;
+}
+
+.page-navigator a {
+  display: inline-block;
+  padding: 4px 10px;
+  color: var(--weui-LINK);
+}
+
+.page-navigator .current a {
+  color: var(--weui-FG-1);
+}
+
+/* 分页：上一页 / 当前页-总页数 / 下一页（参考 ngx-weui 分页样式） */
+.weui-pagination {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+}
+
+.weui-pagination__item {
+  flex: 1;
+  min-width: 0;
+}
+
+.weui-pagination__prev {
+  text-align: left;
+}
+
+.weui-pagination__prev a,
+.weui-pagination__next a {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 6px;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--weui-FG-0);
+  background-color: var(--weui-BG-2);
+}
+
+.weui-pagination__prev a:active,
+.weui-pagination__next a:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE);
+}
+
+.weui-pagination__num {
+  text-align: center;
+  font-size: 14px;
+  color: var(--weui-FG-2);
+}
+
+.weui-pagination__next {
+  text-align: right;
+}
+
+.weui-pagination__prev:empty,
+.weui-pagination__next:empty {
+  visibility: hidden;
+}
+
+/* 「加载更多」模式：改为滚到底部自动无限加载，参考 https://weui.io/#loadmore。
+   容器上 is-loading / is-end 控制三块内容的显隐；.wf-loadmore--js 标记 JS 已接管。 */
+.wf-loadmore {
+  padding: 8px 16px 20px;
+  text-align: center;
+}
+
+/* 列表页：loadmore 直接挂在 .page 下、位于列表容器和页脚之间。
+   让「加载更多 / 已无更多内容」离上面容器的间距 = 离页脚的间距：页脚自带 32px 上内边距，
+   这里把顶部内边距也设成 32px，底部设为 0，两边就都是 32px 了。
+   注意：按钮模式容器是 .wf-loadmore--button，瀑布流模式没有修饰类（就是 .wf-loadmore），
+   所以两种都要覆盖，否则瀑布流会退回默认的 8px 顶距（离列表太近）。 */
+.page > .wf-loadmore,
+.page > .wf-loadmore--button {
+  padding-top: 32px;
+  padding-bottom: 0;
+}
+
+/* 结束态（已无更多内容）与「加载更多按钮」保持一致的上下间距，并且与
+   「没有加载更多、列表直接接页脚」的页面（如相册页 photo.html）节奏相同。
+   为什么不能只改 margin 就完事：
+     WeUI 的 .weui-loadmore 是 font-size:0 的零高行盒，横线画在盒子**顶边**（border-top），
+     而 .weui-loadmore__tips 又用 `position:relative; top:-0.9em`（14px 字号 = -12.6px）
+     把文字往上压到横线上。于是盒子下半截残留下 12.6px **不可见**的空白：
+     视觉上「列表 → 已无更多内容」只有 20px，「已无更多内容 → 页脚 logo」却有 45px。
+   这里把结束态盒子高度收到 5px（只保留横线那一段，文字仍溢出可见），
+   并把结束态的容器上内边距设为 41px，于是：
+     列表底 → 文字顶 = 33px，文字底 → 页脚 logo = 33px，
+   与相册页「最后一条 → 页脚 logo = 33px」完全一致。 */
+.page > .wf-loadmore.is-end {
+  padding-top: 41px;
+  padding-bottom: 0;
+}
+
+.page > .wf-loadmore.is-end .wf-loadmore__end,
+.page > .wf-loadmore--button.is-end .wf-loadmore__end {
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 5px;
+}
+
+/* 评论区：加载更多 / 已无更多评论 到页面底部的留白。
+   这里不再自己加下内边距 —— #comments 已经统一留了 24px（见 .comments 规则），
+   页脚再带 32px，合起来 56px，与「评论少到没有加载控件」时的节奏一致。
+   之前这里另有 20px，叠加后变成 76~80px，显得空。 */
+.comments .wf-loadmore {
+  padding-bottom: 0;
+}
+
+/* 结束态（已无更多评论）：和文章列表末尾是同一个坑 ——
+   WeUI 用 position:relative + top:-0.9em 把文字上移压到横线上，于是盒子底
+   留了约 12px 完全看不见的空间，看起来就比「加载更多按钮」那边空一截。
+   这里把盒子收到和文字一样高，腾出的上方间距再用 padding-top 补回来
+   （补的量按「上一条评论 → 已无更多评论」≈ 按钮态的间距来定）。 */
+.comments .wf-loadmore.is-end {
+  padding-top: 20px;
+  padding-bottom: 0;
+}
+
+.comments .wf-loadmore.is-end .wf-loadmore__end {
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 10px;
+}
+
+/* 未接管（无 JS）时才显示兜底按钮 */
+.wf-loadmore__fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  padding: 10px 16px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 6px;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--weui-FG-0);
+  background-color: var(--weui-BG-2);
+}
+
+.wf-loadmore__fallback:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE);
+}
+
+.wf-loadmore--js .wf-loadmore__fallback {
+  display: none;
+}
+
+/* 「按钮加载更多」：沿用 WeUI 官方 .weui-btn.weui-btn_default 的外观
+   （8px 圆角、17px、居中、浅灰底），这里只补「加载中隐藏按钮」的状态切换。 */
+.wf-loadmore__btn {
+  /* 官方 .weui-btn 默认 margin:auto + display:block；按钮模式下这里是唯一控件，
+     保持官方居中即可，不再额外加圆角/尺寸覆盖。 */
+  min-width: 160px;
+}
+
+/* 加载中：按钮消失，交给转圈（与「已无更多内容」互斥） */
+.wf-loadmore--button.is-loading .wf-loadmore__btn {
+  display: none;
+}
+
+/* 按钮模式下，加载中 / 结束态与瀑布流一致地用状态类切换 */
+.wf-loadmore--button.is-loading .wf-loadmore__loading {
+  display: block;
+}
+
+.wf-loadmore--button.is-end .wf-loadmore__end {
+  display: block;
+  margin-top: 20px;
+}
+
+.wf-loadmore--button.is-end .wf-loadmore__btn {
+  display: none;
+}
+
+/* 默认都收起，由容器状态类打开其中一个 */
+.wf-loadmore__loading,
+.wf-loadmore__end {
+  display: none;
+  margin: 4px auto;
+}
+
+.wf-loadmore--js.is-loading .wf-loadmore__loading {
+  display: block;
+}
+
+/* 结束态用 WeUI 的横线分隔（weui-loadmore_line），margin-top 由官方规则给到 32px，
+   这里收紧一点，避免列表末尾出现过大的空白 */
+.wf-loadmore--js.is-end .wf-loadmore__end {
+  display: block;
+  margin-top: 20px;
+}
+
+/* ============================================================
+ * 加载转圈：直接采用 WeUI 官方的 .weui-primary-loading
+ * （见 weui.io / Tencent/weui dist/style/weui.css）
+ * 官方 .weui-loading 是把带 SMIL 的 SVG 当 background 用，浏览器不会执行
+ * 背景图里的 SMIL 动画，所以静止；官方的 .weui-primary-loading 则是用
+ * ::before/::after 两个半环 + circleLoading keyframes 旋转，动画在 CSS 里，
+ * 任何浏览器都能正常转。这里原样搬过来，颜色用 currentColor 跟随主题。
+ * ============================================================ */
+@-webkit-keyframes circleLoading {
+  0%   { -webkit-transform: rotate3d(0, 0, 1, 0deg); }
+  100% { -webkit-transform: rotate3d(0, 0, 1, 360deg); }
+}
+@keyframes circleLoading {
+  0%   { transform: rotate3d(0, 0, 1, 0deg); }
+  100% { transform: rotate3d(0, 0, 1, 360deg); }
+}
+
+.weui-primary-loading {
+  font-size: 16px;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  color: #606060;
+  -webkit-animation: circleLoading 1s steps(60, end) infinite;
+  animation: circleLoading 1s steps(60, end) infinite;
+}
+
+.weui-primary-loading::before,
+.weui-primary-loading::after {
+  content: "";
+  display: block;
+  width: 0.5em;
+  height: 1em;
+  box-sizing: border-box;
+  border: 0.0875em solid;
+  border-color: currentColor;
+}
+
+.weui-primary-loading::before {
+  border-right-width: 0;
+  border-top-left-radius: 1em;
+  border-bottom-left-radius: 1em;
+  -webkit-mask-image: -webkit-linear-gradient(top, #000000 8%, rgba(0, 0, 0, 0.3) 95%);
+}
+
+.weui-primary-loading::after {
+  border-left-width: 0;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+  -webkit-mask-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 8%, rgba(0, 0, 0, 0.3) 95%);
+}
+
+.weui-primary-loading__dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -0.04375em;
+  width: 0.0875em;
+  height: 0.0875em;
+  border-top-right-radius: 100%;
+  border-bottom-right-radius: 100%;
+  background: currentColor;
+}
+
+/* 深色模式下用浅色转圈（默认 #606060 在深色底上几乎看不见） */
+html[data-wf-theme='dark'] .weui-primary-loading,
+body[data-weui-theme='dark'] .weui-primary-loading {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 尊重「减少动态效果」偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .weui-primary-loading {
+    -webkit-animation: none;
+    animation: none;
+  }
+}
+
+/* 「已无更多内容 / 评论」分隔线中间那块文字底色，必须和**实际所在的面**一致，
+   否则会露出一块异色矩形（方块）：
+   - 首页/列表的 loadmore 直接挂在页面底色（BG-0）上 → 用 BG-0；
+   - 评论区的 loadmore 在白色卡片（BG-2）里 → 用 BG-2。
+   WeUI 默认是 BG-2，所以列表页要单独改成 BG-0。 */
+.wf-loadmore__end .weui-loadmore__tips {
+  background-color: var(--weui-BG-0);
+}
+
+.comments .wf-loadmore__end .weui-loadmore__tips {
+  background-color: var(--weui-BG-2);
+}
+
+/* 区块小标题（评论区、表单等） */
+.section-title {
+  margin: 0;
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--weui-FG-1);
+}
+
+/* ============================================================
+ * 评论区
+ * - 每条评论：头像 + 昵称 + 时间一行，右侧回复；内容另起一行
+ * - 嵌套只缩进一层：更深层级与第一层子回复同样缩进，并显示 @某某
+ * - 表单：大输入框 + 底部工具栏（评论信息 / 发送），用户信息可保存到 cookie
+ * ============================================================ */
+
+.comments {
+  border-top: 1px solid var(--weui-FG-3);
+  /* 评论区内容比文章列表密，底部多留一点，避免最后一条评论紧贴页脚
+     （页脚自身另有 32px 上内边距，合起来是 24 + 32 = 56px）。 */
+  padding-bottom: 24px;
+}
+
+.comment-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.comment-list li.comment-body {
+  position: relative;
+  padding: 10px 16px;
+}
+
+/* 第一行：头像、昵称、时间（回复链接已移到下方操作行，这里不再预留右侧空间） */
+.comment-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.comment-head .comment-avatar {
+  flex: none;
+  width: 28px;
+  height: 28px;
+}
+
+.comment-head .comment-avatar img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--weui-FG-3);
+}
+
+.comment-name {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--weui-FG-0);
+  min-width: 0;
+  flex: 0 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comment-name a {
+  color: var(--weui-FG-0);
+}
+
+/* 「待审核」标记：接在昵称后面。
+   只有本人能看到 —— 未通过审核的评论只有提交者自己拿得到，别人页面上没有这条。 */
+.comment-pending-tag {
+  flex: none;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 17px;
+  color: #d48806;
+  background-color: rgba(250, 173, 20, 0.14);
+  border: 1px solid rgba(250, 173, 20, 0.32);
+  white-space: nowrap;
+}
+
+@media (prefers-color-scheme: dark) {
+  .comment-pending-tag {
+    color: #ffc53d;
+    background-color: rgba(250, 173, 20, 0.18);
+    border-color: rgba(250, 173, 20, 0.4);
+  }
+}
+
+.comment-date {
+  flex: none;
+  font-size: 12px;
+  color: var(--weui-FG-2);
+}
+
+/* 操作区（点赞 + 回复）：贴在头部行右侧，与默认主题「回复」同位置 */
+.comment-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  flex: none;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* 点赞 / 点踩 */
+.wf-vote {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 文章页：点赞 —(打赏)— 整体居中、彼此挨近（不铺满整行） */
+.wf-vote--with-middle {
+  width: 100%;
+  justify-content: center;
+  gap: 18px;
+}
+
+/* 只有点赞时也居中挨近 */
+.wf-vote--with-middle .wf-vote__btn {
+  padding: 2px 12px;
+}
+
+.wf-vote--actions-only {
+  width: 100%;
+  justify-content: center;
+}
+
+.wf-vote__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 10px;
+  border: none;
+  border-radius: 999px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--weui-FG-2);
+  background: transparent;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.wf-vote__btn:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+.wf-vote__btn.is-voted.wf-vote__btn--like {
+  color: var(--weui-BRAND);
+}
+
+.wf-vote__count {
+  min-width: 1ch;
+}
+
+/* 文章页操作行里的点赞按钮：像打赏按钮一样加一圈外框；点赞 = 绿色 */
+.article-actions .wf-vote__btn {
+  padding: 6px 18px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 999px;
+  font-size: 14px;
+  color: var(--weui-BRAND);
+  background: transparent;
+}
+
+.article-actions .wf-vote__btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.article-actions .wf-vote__btn.is-voted.wf-vote__btn--like {
+  background-color: var(--weui-BRAND);
+  border-color: var(--weui-BRAND);
+  color: #fff;
+  /* 点赞后整圈变绿（实心），和未点赞的绿色描边区分 */
+}
+
+/* 文章页底部的操作行（点赞 / 打赏 / 分享 单独一行）。
+   这几个按钮整行居中（原来只有带打赏时才居中）。
+   正文到按钮的间距由「正文 section 下边距 28px + 文章底部内边距 20px」共 48px；
+   上移 24px 后收紧到 24px，和「标签到下方分割线」的 24px 一致。 */
+.article-actions {
+  margin-top: -24px;
+  padding: 0 24px 10px;
+}
+
+.article-actions .wf-vote,
+.article-actions .wf-vote--actions-only {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ---------- 密码保护文章：美化 Typecho 自带的 .protected 表单 ---------- */
+.wf-post-content .protected {
+  max-width: 340px;
+  margin: 4px auto 0;
+  padding: 26px 22px 22px;
+  border-radius: 12px;
+  background-color: var(--weui-BG-0);
+  text-align: center;
+}
+
+/* 小锁图标（用 mask + 主题色，明暗自动适配） */
+.wf-post-content .protected .word::before {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 10px;
+  background-color: var(--weui-FG-2);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M18%208h-1V6c0-2.76-2.24-5-5-5S7%203.24%207%206v2H6c-1.1%200-2%20.9-2%202v10c0%201.1.9%202%202%202h12c1.1%200%202-.9%202-2V10c0-1.1-.9-2-2-2zm-6%209c-1.1%200-2-.9-2-2s.9-2%202-2%202%20.9%202%202-.9%202-2%202zm3.1-9H8.9V6c0-1.71%201.39-3.1%203.1-3.1%201.71%200%203.1%201.39%203.1%203.1v2z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M18%208h-1V6c0-2.76-2.24-5-5-5S7%203.24%207%206v2H6c-1.1%200-2%20.9-2%202v10c0%201.1.9%202%202%202h12c1.1%200%202-.9%202-2V10c0-1.1-.9-2-2-2zm-6%209c-1.1%200-2-.9-2-2s.9-2%202-2%202%20.9%202%202-.9%202-2%202zm3.1-9H8.9V6c0-1.71%201.39-3.1%203.1-3.1%201.71%200%203.1%201.39%203.1%203.1v2z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+.wf-post-content .protected .word {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--weui-FG-1);
+}
+
+.wf-post-content .protected .text {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--weui-FG-0);
+  background-color: var(--weui-BG-2);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.wf-post-content .protected .text:focus {
+  border-color: var(--weui-BRAND);
+}
+
+.wf-post-content .protected .submit {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #fff;
+  background-color: var(--weui-BRAND);
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.wf-post-content .protected .submit:active {
+  opacity: 0.8;
+}
+
+/* ---------- 顶部提示条（WeUI toptips） ----------
+   WeUI 默认是 position:fixed + left/right:8px，PC 端会横跨整个视口、
+   比主容器 .page（max-width:640px 居中）宽出一大截。这里改成以主容器为准居中，
+   并左右各向内收 8px（与它距顶部 8px 保持一致）：
+   PC 端宽 640-16=624px，窄屏则左右各留 8px。
+   用 100%（而非 100vw）取宽度，避免把滚动条也算进来导致左右不对称。 */
+#wf-toptips {
+  left: 50%;
+  right: auto;
+  width: calc(min(640px, 100%) - 16px);
+  box-sizing: border-box;
+  transform: translateX(-50%);
+}
+
+#wf-toptips.wf-toptips-in {
+  display: block;
+  animation: wfToptipsIn 0.25s ease;
+}
+
+/* 动画的 transform 必须带上 translateX(-50%)，否则入场时会丢掉水平居中 */
+@keyframes wfToptipsIn {
+  from { opacity: 0; transform: translate(-50%, -12px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* 打赏 / 分享按钮：和点赞同一视觉体系，但各自用独立配色区分
+   点赞 = 绿色（--weui-BRAND）、打赏 = 红色（--weui-RED）、分享 = 蓝色 */
+.wf-reward__btn,
+.wf-share__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 18px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 999px;
+  font-size: 14px;
+  color: var(--weui-FG-1);
+  background: transparent;
+}
+
+.wf-reward__btn:active,
+.wf-share__btn:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+.wf-reward__btn svg,
+.wf-share__btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.wf-reward__btn {
+  color: var(--weui-RED);
+}
+
+.wf-reward__btn svg {
+  color: var(--weui-RED);
+}
+
+.wf-share__btn {
+  color: var(--weui-LINK);
+}
+
+.wf-share__btn svg {
+  color: var(--weui-LINK);
+}
+
+/* 打赏弹窗 */
+#wf-reward-mask {
+  z-index: 5001;
+}
+
+/* 打赏弹窗比默认宽一些，方便两个二维码并排；用左右各 50% + translateX 居中 */
+#wf-reward-dialog {
+  z-index: 5002;
+  left: 50%;
+  right: auto;
+  width: min(400px, calc(100vw - 32px));
+  max-width: none;
+  transform: translate(-50%, -50%);
+}
+
+/* 分享弹窗 */
+#wf-share-mask {
+  z-index: 5001;
+}
+
+#wf-share-dialog {
+  z-index: 5002;
+  left: 50%;
+  right: auto;
+  width: min(400px, calc(100vw - 32px));
+  max-width: none;
+  transform: translate(-50%, -50%);
+}
+
+/* 用「显示/隐藏」而不是 visibility 过渡来控制显隐：
+   visibility 的过渡在部分浏览器里关闭时不会真正变回 hidden，
+   表现为「点关闭没反应」。display 切换是确定性的，动画交给 keyframes。 */
+#wf-reward-mask,
+#wf-reward-dialog,
+#wf-share-mask,
+#wf-share-dialog,
+#wf-poster-mask,
+#wf-poster-dialog,
+#comment-profile-mask,
+#comment-profile-dialog {
+  display: none;
+}
+
+#wf-reward-mask.is-open,
+#wf-share-mask.is-open,
+#wf-poster-mask.is-open {
+  display: block;
+  -webkit-animation: wfFadeIn 0.2s ease;
+  animation: wfFadeIn 0.2s ease;
+}
+
+#wf-reward-dialog.is-open,
+#wf-share-dialog.is-open,
+#wf-poster-dialog.is-open {
+  display: flex;
+  -webkit-animation: wfRewardIn 0.2s ease;
+  animation: wfRewardIn 0.2s ease;
+}
+
+@-webkit-keyframes wfFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes wfFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 评论信息弹窗：沿用 WeUI 的 translate(0,-50%) 居中 */
+@-webkit-keyframes wfDialogIn {
+  from { opacity: 0; -webkit-transform: translate(0, -50%) scale(0.96); }
+  to { opacity: 1; -webkit-transform: translate(0, -50%) scale(1); }
+}
+
+@keyframes wfDialogIn {
+  from { opacity: 0; transform: translate(0, -50%) scale(0.96); }
+  to { opacity: 1; transform: translate(0, -50%) scale(1); }
+}
+
+/* 打赏弹窗是 translate(-50%,-50%) 居中，动画要对应 */
+@-webkit-keyframes wfRewardIn {
+  from { opacity: 0; -webkit-transform: translate(-50%, -50%) scale(0.96); }
+  to { opacity: 1; -webkit-transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes wfRewardIn {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.wf-reward__text {
+  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--weui-FG-1);
+}
+
+/* 二维码区：不强行裁成方块，保持图片自己的比例（微信/支付宝收款码多是竖版卡片） */
+.wf-reward__codes {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.wf-reward__item {
+  margin: 0;
+  text-align: center;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.wf-reward__item img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-height: 260px;
+  max-width: 100%;
+  margin: 0 auto;
+  border-radius: 10px;
+  /* 收款码本身自带白底/描边，这里不再额外加白框，避免套一层方框很难看 */
+  object-fit: contain;
+}
+
+/* 两个并排时各自再收窄一点，保证同一行放得下 */
+.wf-reward__codes.is-both .wf-reward__item img {
+  max-height: 210px;
+  max-width: 38vw;
+}
+
+.wf-reward__item figcaption {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--weui-FG-2);
+}
+
+/* ---------- 分享面板 ---------- */
+.wf-share__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.wf-share__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 4px;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--weui-FG-1);
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.wf-share__item:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+/* 图标用主题色，文字保持中性灰 */
+.wf-share__item svg {
+  color: var(--weui-BRAND);
+}
+
+/* 微信扫码：二维码在面板下方展开，居中。
+   二维码必须白底黑块才能扫，深色模式下给一层白底（qrcodejs 本身也画白底，这里再兜一层）。 */
+.wf-share__qr {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.wf-share__qr img,
+.wf-share__qr canvas {
+  display: block;
+  margin: 0 auto;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+/* ---------- 海报弹窗 ---------- */
+#wf-poster-mask {
+  z-index: 5001;
+}
+
+#wf-poster-dialog {
+  z-index: 5002;
+  left: 50%;
+  right: auto;
+  width: min(420px, calc(100vw - 32px));
+  max-width: none;
+  transform: translate(-50%, -50%);
+}
+
+/* 海报弹窗比分享面板高，给内容区限高 + 滚动，避免小屏溢出 */
+#wf-poster-dialog .weui-dialog__bd {
+  max-height: 62vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wf-poster__stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+}
+
+/* 海报是固定 750x1000 的 2x 画布，这里按容器宽度等比缩放显示。
+   展示出来的是 <img>（不是 canvas）：Safari 只对图片提供「存储图像」的长按菜单，
+   对 canvas 长按没有任何保存项。所以这里必须显式打开长按菜单、允许选中，
+   否则用户「长按保存」会没反应。 */
+.wf-poster__canvas {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  -webkit-touch-callout: default;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
+.wf-poster__loading {
+  font-size: 13px;
+  color: var(--weui-FG-2);
+}
+
+.wf-poster__tip {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--weui-FG-2);
+}
+
+/* 「保存图片」按钮在画布生成前保持隐藏。
+   .weui-dialog__btn 自身设了 display:block，会盖掉 hidden 的默认样式，
+   所以这里显式写一条，否则按钮会在还没画好时先亮出来。 */
+#wf-poster-dialog .weui-dialog__btn[hidden] {
+  display: none;
+}
+
+/* 可点击切换的时间（相对时间 <-> 完整时间） */
+.wf-time {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.wf-time:active {
+  opacity: 0.6;
+}
+
+.comment-actions a {
+  color: var(--weui-FG-2);
+}
+
+.comment-actions:empty {
+  display: none;
+}
+
+/* 内容缩进到与昵称对齐（头像 28px + 间距 8px） */
+.comment-content {
+  margin: 6px 0 0 36px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--weui-FG-0);
+  word-wrap: break-word;
+}
+
+.comment-content p {
+  margin: 0 0 8px;
+}
+
+.comment-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* @某某（表示回复的是谁）：点击跳到被回复的那条评论 */
+.comment-mention {
+  margin-right: 4px;
+  color: var(--weui-LINK);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 跳转到某条评论时短暂高亮，方便定位 */
+.comment-body.is-highlight {
+  animation: wf-comment-flash 2s ease;
+  border-radius: 8px;
+}
+
+@keyframes wf-comment-flash {
+  0%, 60% { background-color: var(--weui-BRAND-LIGHT, rgba(7, 193, 96, 0.12)); }
+  100% { background-color: transparent; }
+}
+
+/* 子评论：所有回复都平级排在同一个 <ol> 里（见 functions.php 的 threadedComments），
+   DOM 不再嵌套，缩进只用「一层」margin 表达；二级及更深的回复也保持同一缩进。
+   所以这里选择 <li> 自身的 .comment-child，而不是旧的嵌套容器 .comment-children。 */
+.comment-list li.comment-child {
+  margin-left: 36px;
+}
+
+/* 子评论用略小的头像，和顶层评论区分开 */
+.comment-list li.comment-child .comment-head .comment-avatar,
+.comment-list li.comment-child .comment-head .comment-avatar img {
+  width: 24px;
+  height: 24px;
+}
+
+/* 子评论正文缩进到与昵称对齐（头像 24px + 间距 8px） */
+.comment-list li.comment-child .comment-content {
+  margin-left: 32px;
+}
+
+.comment-awaiting-moderation {
+  color: #fa5151;
+}
+
+/* 评论分页（分页模式） */
+.weui-comments-pager {
+  padding: 12px 16px;
+}
+
+.weui-comments-pager .page-navigator {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.weui-comments-pager .page-navigator li {
+  display: inline-block;
+  margin: 0 4px;
+}
+
+.weui-comments-pager .page-navigator a {
+  display: inline-block;
+  padding: 4px 10px;
+  color: var(--weui-LINK);
+}
+
+/* 评论的「按钮 / 瀑布流加载更多」复用 .wf-loadmore 结构（见上方列表侧规则），
+   这里只补一点外边距，避免紧贴最后一条评论。 */
+.comments .wf-loadmore {
+  margin-top: 8px;
+}
+
+/* 评论分页条：复用文章列表的 .weui-pagination（上一页 / 当前·总数 / 下一页） */
+.comments .weui-pagination {
+  margin-top: 4px;
+  /* 分页条自带 padding:16px，这里只去掉底部那份 —— 否则会和 #comments 的
+     统一留白（24px）+ 页脚 32px 叠成 72px，比其它状态明显空。 */
+  padding-bottom: 0;
+}
+
+/* 评论框置于所有评论下方：与上方评论列表拉开距离 */
+.comments--form-bottom .respond {
+  margin-top: 16px;
+  border-top: 1px solid var(--weui-FG-3);
+}
+
+/* ---------- 评论表单 ---------- */
+.respond {
+  padding-top: 4px;
+}
+
+.comment-form {
+  padding: 12px 16px 16px;
+}
+
+.comment-form-meta,
+.comment-form-login {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--weui-FG-1);
+}
+
+.comment-form-login .logout {
+  margin-left: 6px;
+  color: var(--weui-LINK);
+}
+
+.comment-form-meta .cancel-comment-reply,
+.comment-form-login .cancel-comment-reply {
+  margin-left: auto;
+  font-size: 13px;
+}
+
+.cancel-comment-reply a {
+  color: var(--weui-LINK);
+}
+
+/* 大输入框 */
+.comment-editor textarea.comment-textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 84px;
+  padding: 10px 12px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--weui-FG-0);
+  background-color: var(--weui-BG-2);
+  resize: vertical;
+}
+
+/* 富文本编辑器（表情 / 贴纸所见即所得）：JS 启用后替换掉原生 textarea */
+.comment-editor.is-rich .comment-textarea {
+  display: none;
+}
+
+.comment-rich {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 84px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 10px 12px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--weui-FG-0);
+  background-color: var(--weui-BG-2);
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+.comment-rich[hidden] {
+  display: none;
+}
+
+.comment-rich:empty::before {
+  content: attr(data-placeholder);
+  color: var(--weui-FG-2);
+  pointer-events: none;
+}
+
+.comment-rich:focus {
+  border-color: var(--weui-BRAND);
+  outline: none;
+}
+
+/* 表情 / 贴纸图片（编辑器内与评论输出通用）
+   尺寸用 em：都约为字号的 1.5 倍，随正文/编辑器字号自适应 */
+.wf-biaoqing,
+.wf-sticker {
+  height: 1.5em;
+  width: auto;
+  vertical-align: -0.35em;
+}
+
+.comment-rich img,
+.comment-content img.wf-sticker,
+.comment-content img.wf-biaoqing {
+  vertical-align: middle;
+}
+
+/* 底部工具行：表情面板以它为定位基准 */
+.comment-actions-row {
+  position: relative;
+}
+
+/* 表情 / 贴纸面板：绝对定位在工具行之上，向上展开覆盖输入框 */
+.comment-emoji {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  z-index: 30;
+  margin-bottom: 8px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 10px;
+  background-color: var(--weui-BG-2);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.comment-emoji.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.comment-emoji__hd {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--weui-FG-3);
+}
+
+.comment-emoji__tab {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--weui-FG-1);
+  background: transparent;
+}
+
+.comment-emoji__tab.is-active {
+  color: var(--weui-BRAND);
+  background-color: var(--weui-BG-0);
+  font-weight: 500;
+}
+
+.comment-emoji__close {
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  font-size: 13px;
+  color: var(--weui-FG-2);
+  background: transparent;
+}
+
+.comment-emoji__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: 2px;
+  max-height: 232px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.comment-emoji__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  /* 与评论内容同字号，下面的 1.5em 才能和正文里的表情一样大 */
+  font-size: 15px;
+}
+
+.comment-emoji__item:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+/* 待选表情与评论里显示的大小一致（1.5em） */
+.comment-emoji__item img {
+  height: 1.5em;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* 游客身份行：头像 + 昵称 + 铅笔（点开弹窗填写信息） */
+.comment-identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* 身份行里的小头像（Gravatar），随昵称/邮箱实时更新 */
+.comment-identity__avatar {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--weui-FG-3);
+  object-fit: cover;
+}
+
+.comment-identity__name {
+  color: var(--weui-FG-0);
+  max-width: 12em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comment-pencil {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  color: var(--weui-FG-2);
+  background-color: transparent;
+}
+
+.comment-pencil:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+/* 信息不全时的提示 */
+.comment-profile-hint {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--weui-FG-1);
+}
+
+.comment-profile-hint.is-error {
+  color: #fa5151;
+}
+
+/* 提交状态提示 */
+.comment-form-notice {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--weui-FG-1);
+}
+
+.comment-form-notice.is-error {
+  color: #fa5151;
+}
+
+/* 底部工具栏：表情靠左，发送靠右 */
+.comment-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.comment-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--weui-FG-1);
+  background-color: var(--weui-BG-2);
+}
+
+.comment-tool .comment-tool-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.comment-tool.comment-submit {
+  border-color: transparent;
+  color: #fff;
+  background-color: var(--weui-BRAND);
+}
+
+/* 提交按钮加载态：按钮内显示官方 .weui-primary-loading 转圈（用 currentColor=按钮白字） */
+.comment-tool.comment-submit .comment-submit__spin {
+  display: none;
+  font-size: 15px;
+  margin-right: 3px;
+  /* 绿色按钮上转圈用白字色，和「发送」文字一致 */
+  color: #fff;
+}
+
+.comment-tool.comment-submit.is-loading .comment-submit__spin {
+  display: inline-flex;
+  vertical-align: -2px;
+}
+
+.comment-tool.comment-submit.is-loading,
+.comment-tool:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.comment-tool.is-active {
+  border-color: var(--weui-BRAND);
+  color: var(--weui-BRAND);
+}
+
+.comment-tool:active {
+  opacity: 0.7;
+}
+
+/* 回复某条评论时，表单会被移到该条评论内（正文之后、子评论之前），
+   这里把它做成一个内嵌的回复卡片，避免与列表样式打架 */
+.comment-list li.comment-body .respond {
+  margin: 10px 0 2px;
+  border-radius: 8px;
+  background-color: var(--weui-BG-2);
+}
+
+.comment-list > li.comment-body > .respond {
+  margin-left: 36px;
+}
+
+.comment-list > li.comment-child > .respond {
+  margin-left: 32px;
+}
+
+/* 正在回复的那条：左侧加一条高亮，明确回复目标 */
+.comment-body.is-replying > .respond {
+  box-shadow: 0 0 0 1px var(--weui-BRAND);
+}
+
+/* ---------- 评论信息：WeUI 弹窗 ---------- */
+#comment-profile-mask {
+  z-index: 5001;
+}
+
+#comment-profile-dialog {
+  z-index: 5002;
+}
+
+/* 显隐用 display + keyframes（见文件上方 wfFadeIn / wfDialogIn 的定义） */
+#comment-profile-mask.is-open {
+  display: block;
+  -webkit-animation: wfFadeIn 0.2s ease;
+  animation: wfFadeIn 0.2s ease;
+}
+
+#comment-profile-dialog.is-open {
+  display: flex;
+  -webkit-animation: wfDialogIn 0.2s ease;
+  animation: wfDialogIn 0.2s ease;
+}
+
+#comment-profile-dialog .weui-dialog__bd {
+  text-align: left;
+}
+
+/* 弹窗内部的信息输入框（沿用原有输入框样式） */
+.comment-profile-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.comment-profile-fields .comment-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--weui-FG-0);
+  background-color: var(--weui-BG-2);
+}
+
+#comment-profile-dialog .weui-dialog__bd {
+  margin-bottom: 24px;
+}
+
+/* ============================================================
+ * 归档时间线（WeUI 风格）
+ * 左列日期、中间竖线 + 圆点、右侧标题卡片；按月分组，月份为一个小胶囊。
+ * ============================================================ */
+/* 归档时间线放在 .weui-article 内，需覆盖官方 .weui-article ol 的
+   list-style: decimal 与 margin-left，否则会冒出「1. 2.」序号 */
+.weui-article ol.wf-timeline,
+ol.wf-timeline,
+.wf-timeline {
+  list-style: none;
+  list-style-type: none;
+  margin: 4px 0 8px;
+  padding: 0;
+  position: relative;
+}
+
+/* 整条时间线只画一根连续的竖线（放在 <ol> 上），避免逐条绘制时
+   在间距 / 月份分组处出现断线。x 位置 = 日期列宽 46px + 圆点列宽的一半 17px。 */
+.wf-timeline::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 63px;
+  width: 1px;
+  background-color: var(--weui-FG-3);
+}
+
+.weui-article ol.wf-timeline li,
+ol.wf-timeline > li,
+.wf-timeline > li {
+  list-style: none;
+  list-style-type: none;
+}
+
+/* 月份分组标题：小胶囊，压在竖线上（胶囊背景会盖住线） */
+.wf-timeline__group {
+  position: relative;
+  z-index: 1;
+  margin: 22px 0 12px;
+  padding-left: 0;
+}
+
+.wf-timeline__group:first-child {
+  margin-top: 4px;
+}
+
+.wf-timeline__month {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  background-color: var(--weui-BRAND);
+}
+
+/* 每一条：三栏栅格（日期 / 轴 / 内容） */
+.wf-timeline__item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: 8px 0;
+}
+
+/* 左侧日期 */
+.wf-timeline__date {
+  flex: none;
+  width: 46px;
+  padding-top: 3px;
+  font-size: 13px;
+  color: var(--weui-FG-2);
+  text-align: right;
+}
+
+/* 中间列：只负责圆点，竖线由 .wf-timeline::before 统一绘制 */
+.wf-timeline__dot {
+  position: relative;
+  flex: none;
+  width: 34px;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+}
+
+/* 空心圆点：中间透出页面底色、外圈描边主题色 */
+.wf-timeline__dot::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--weui-BG-2);
+  box-shadow: 0 0 0 2px var(--weui-BRAND);
+  transform: translateX(-50%);
+}
+
+/* 右侧内容 */
+.wf-timeline__body {
+  flex: 1;
+  min-width: 0;
+  padding-left: 6px;
+}
+
+.wf-timeline__title {
+  display: inline-block;
+  max-width: 100%;
+  padding: 2px 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--weui-FG-0);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wf-timeline__title:active {
+  color: var(--weui-FG-1);
+}
+
+/* 归档页在正文容器里，无需再额外内边距 */
+.wf-timeline .wf-timeline__body a {
+  vertical-align: top;
+}
+
+/* 评论作者链接（登录态下 Typecho 会输出 <a>：普通文章里 > 与昵称同色；
+   相册文章（瀑布流下方）同样适用） */
+.comment-author cite a {
+  color: var(--weui-FG-0);
+}
+
+/* 友链九宫格：无边框线条，三栏等宽，图片/名称/介绍居中 */
+.link-grids {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 8px;
+  margin: 0;
+}
+
+.link-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--weui-FG-0);
+}
+
+.link-grid__icon {
+  width: 48px;
+  height: 48px;
+}
+
+.link-grid__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.link-grid__name {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--weui-FG-0);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.link-grid__desc {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--weui-FG-2);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* 相册详情：正方形网格 + 懒加载淡入（灯箱由 Fancybox 接管） */
+.wf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+@media (min-width: 641px) {
+  .wf-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.wf-grid__item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 4px;
+  /* 正方形格子：用 padding-top 撑出 1:1 比例 */
+  padding-top: 100%;
+}
+
+.wf-grid__item .wf-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* 关键：裁成正方形，不拉伸、不变形 */
+  object-fit: cover;
+}
+
+/* 视频缩略图兜底：抽帧失败（Safari 等）时，直接用 <video> 元素本身当封面，
+   浏览器会原生绘制首帧——不依赖 canvas，所以任何浏览器都看得到画面。 */
+.wf-grid__item .wf-video-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #2b2b2b;
+  /* 首帧出来前先不白屏：深色底 + 播放键由 .wf-play 提供 */
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.wf-grid__item .wf-video-thumb.is-loaded {
+  opacity: 1;
+}
+
+.wf-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background-color: var(--weui-FG-3);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.wf-img.is-loaded {
+  opacity: 1;
+}
+
+/* 懒加载占位底色：占位图本身是「透明 SVG」，可见底色交给这里的 background-color，
+   随亮/暗主题自动切换（--weui-FG-3 已是主题变量），避免暗色模式下闪白。
+   只给「需要一块可见底板」的图（列表缩略图 / 打赏码 / 音乐封面）加；
+   表情、头像这类透明小图不加，否则会出现灰色方块。 */
+.weui-media-box__thumb,
+.wf-reward__img,
+.wf-music__item-img {
+  background-color: var(--weui-FG-3);
+}
+
+/* 相册网格里的视频缩略图：居中播放按钮 */
+.wf-grid__item--video .wf-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.wf-grid__item--video .wf-play svg {
+  display: block;
+  margin-left: 2px; /* 三角形视觉重心略偏左，往右推一点才居中 */
+}
+
+.gallery-empty {
+  color: var(--weui-FG-2);
+}
+
+/* 页脚 */
+.site-footer {
+  padding: 32px 16px;
+}
+
+/* 后台自定义的页脚内容（支持 HTML），显示在版权上方 */
+.site-footer__extra {
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--weui-FG-2);
+  word-wrap: break-word;
+}
+
+.site-footer__extra a {
+  color: var(--weui-LINK);
+}
+
+.site-footer__extra img {
+  max-width: 100%;
+}
+
+/* 「由 <Typecho logo> 强力驱动」：logo 跟随主题前景色走，亮/暗都清楚 */
+.wf-powered {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wf-powered__link {
+  display: inline-flex;
+  align-items: center;
+  /* 用次级前景色，暗色下不会太刺眼，亮色下也够清晰 */
+  color: var(--weui-FG-1);
+  transition: color 0.15s ease;
+}
+
+.wf-powered__link:hover {
+  color: var(--weui-FG-0);
+}
+
+.wf-typecho-logo {
+  display: block;
+  height: 1.15em;
+  width: auto;
+}
+
+/* 列表元信息现在用 flex + gap 排列（见 .weui-media-box__info），不再需要竖线分隔 */
+
+/* ============================================================
+ * 博客正文常用 HTML 组件（WeUI 未提供的部分）
+ * 覆盖正文与评论内容，明暗两种模式自动适配。
+ * ============================================================ */
+
+/* 正文里额外的可读性元素 */
+.wf-post-content hr,
+.comment-content hr {
+  margin: 24px 0;
+  border: 0;
+  border-top: 1px solid var(--weui-FG-3);
+}
+
+/* 正文链接配色：只作用于文章正文内容（.wf-post-content），
+   不影响分类 / 归档 / 相册等页面里作为导航的列表项 */
+.wf-post-content a,
+.comment-content a {
+  color: var(--weui-LINK);
+  word-wrap: break-word;
+}
+
+/* 引用 */
+.wf-post-content blockquote,
+.comment-content blockquote {
+  margin: 0 0 24px;
+  padding: 8px 0 8px 16px;
+  border-left: 4px solid var(--weui-FG-3);
+  color: var(--weui-FG-1);
+}
+
+.comment-content blockquote {
+  margin-bottom: 12px;
+}
+
+.wf-post-content blockquote p:last-child,
+.comment-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 有序 / 无序列表（评论内容里也补上） */
+.comment-content ul,
+.comment-content ol {
+  margin: 0 0 12px 1.2em;
+  padding: 0;
+}
+
+.comment-content li {
+  margin: 0.3em 0;
+}
+
+.comment-content ul {
+  list-style: disc;
+}
+
+.comment-content ol {
+  list-style: decimal;
+}
+
+/* 行内代码 */
+.wf-post-content code,
+.comment-content code {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+  color: #d6336c;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* 代码块 */
+.wf-post-content pre,
+.comment-content pre {
+  margin: 0 0 24px;
+  padding: 14px 16px;
+  overflow: auto;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  -webkit-overflow-scrolling: touch;
+}
+
+.comment-content pre {
+  margin-bottom: 12px;
+}
+
+/* 代码块里的 code 去掉行内样式 */
+.wf-post-content pre code,
+.comment-content pre code {
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  color: inherit;
+  background: transparent;
+}
+
+/* 表格 */
+.wf-post-content table,
+.comment-content table {
+  width: 100%;
+  margin: 0 0 24px;
+  border-collapse: collapse;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+.comment-content table {
+  margin-bottom: 12px;
+}
+
+.wf-post-content th,
+.wf-post-content td,
+.comment-content th,
+.comment-content td {
+  padding: 8px 12px;
+  border: 1px solid var(--weui-FG-3);
+  text-align: left;
+}
+
+.wf-post-content th,
+.comment-content th {
+  font-weight: 500;
+  color: var(--weui-FG-0);
+  background-color: var(--weui-FG-5, rgba(0, 0, 0, 0.03));
+}
+
+/* 图片说明 */
+.wf-post-content figure {
+  margin: 0 0 24px;
+}
+
+.wf-post-content figcaption {
+  margin-top: 6px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--weui-FG-2);
+}
+
+/* 键盘按键 */
+.wf-post-content kbd,
+.comment-content kbd {
+  padding: 1px 6px;
+  border: 1px solid var(--weui-FG-3);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  color: var(--weui-FG-0);
+  background-color: var(--weui-BG-1, #f7f7f7);
+}
+
+/* 标记高亮 */
+.wf-post-content mark,
+.comment-content mark {
+  padding: 0 2px;
+  border-radius: 2px;
+  background-color: rgba(255, 214, 0, 0.4);
+  color: inherit;
+}
+
+/* 折叠 */
+.wf-post-content details,
+.comment-content details {
+  margin: 0 0 24px;
+  padding: 8px 12px;
+  border: 1px solid var(--weui-FG-3);
+  border-radius: 8px;
+}
+
+.wf-post-content summary,
+.comment-content summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--weui-FG-0);
+}
+
+/* 嵌入视频 / iframe 自适应 */
+.wf-post-content iframe,
+.wf-post-content video {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* PJAX 过渡。
+   注意：不再给 html 加全局 scroll-behavior:smooth。全局平滑会让 PJAX 换页时的
+   scrollTo(0,0) 变成「动画滚动」，与图片懒加载撑高内容产生竞态，导致回不到顶部。
+   需要平滑的地方（目录跳转、评论定位、返回顶部按钮）都在 JS 里显式写了
+   behavior:'smooth'，无需全局平滑。 */
+.page {
+  transition: opacity 0.18s ease;
+  /* 关闭滚动锚定：图片懒加载揭示撑高内容时，浏览器不要再自动挪动滚动位置，
+     否则会出现「明明回了顶又被顶下去」的抖动。 */
+  overflow-anchor: none;
+}
+
+.page.wf-pjax-leave {
+  opacity: 0.4;
+}
+
+/* ============================================================
+ * 侧边悬浮控制（文章目录 + 外观设置 + 返回顶部）
+ * 移动端：贴右侧的半圆片；PC 端：悬浮圆球。
+ * 垂直位置取「上部黄金分割点」：距离顶部约 38.2%（1 - 0.618），视觉更靠上、更顺手。
+ * ============================================================ */
+.wf-fab {
+  position: fixed;
+  /* 移动端贴死右缘：半圆片从屏幕边缘探出，不留下空隙 */
+  right: 0;
+  /* 垂直位置取「上部黄金分割点」：距顶约 38.2%，按钮自该点向下排列 */
+  top: 38.2%;
+  transform: translateY(-50%);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.wf-fab__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  /* 移动端贴边：不要右侧边框（贴边处也看不到），左侧保留圆角形成半圆片 */
+  border: 1px solid transparent;
+  border-right: none;
+  border-radius: 23px 0 0 23px;
+  color: var(--weui-FG-1);
+  background-color: var(--weui-BG-2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, color 0.2s ease, opacity 0.2s ease, visibility 0.2s ease, border-color 0.2s ease;
+}
+
+/* .wf-fab__btn 的 display:flex 会盖过浏览器默认的 [hidden]{display:none}，
+   所以必须显式补一条，否则 hidden 的目录按钮仍然可见（PJAX 换页后尤其明显）。 */
+.wf-fab__btn[hidden] {
+  display: none;
+}
+
+/* 暗色下的细描边（移动端贴边，只描左/上/下三边，右侧贴屏幕） */
+html[data-wf-theme='dark'] .wf-fab__btn,
+body[data-weui-theme='dark'] .wf-fab__btn {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.wf-fab__btn:active {
+  color: var(--weui-BRAND);
+  background-color: var(--weui-BG-5);
+}
+
+/* 返回顶部：默认隐藏，向下滚动后淡入。
+   注意用 display 控制显隐——否则隐藏时仍占位，会让它上下相邻的按钮之间出现空档。 */
+.wf-fab__btn--top {
+  display: none;
+  opacity: 0;
+  transform: translateX(14px);
+}
+
+.wf-fab__btn--top.is-on {
+  display: flex;
+  opacity: 1;
+  transform: none;
+}
+
+/* 淡入：先显示再过渡不透明度（display 无法参与 transition，用 animation 补） */
+.wf-fab__btn--top.is-on {
+  animation: wf-fab-fade-in 0.2s ease;
+}
+
+@keyframes wf-fab-fade-in {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- 文章目录面板 ---------- */
+.wf-toc {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 0;
+  transform: scale(0.96);
+  transform-origin: right top;
+  /* 宽度随目录文字自适应，但不超过上限；超出用省略号（见 .wf-toc__item a）。
+     用 calc(100vw - 72px) 而非 vw 百分比，避免窄屏（iPhone SE 320）越过屏幕左缘。 */
+  width: max-content;
+  min-width: 132px;                 /* 最小宽度与「网站配色」面板一致 */
+  max-width: min(280px, calc(100vw - 72px));
+  box-sizing: border-box;
+  max-height: 60vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px;
+  border-radius: 12px;
+  background-color: var(--weui-BG-2);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.wf-toc.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+@media (min-width: 641px) {
+  html[data-wf-theme='dark'] .wf-toc,
+  body[data-weui-theme='dark'] .wf-toc {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+}
+
+.wf-toc__hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px 6px 12px;
+}
+
+.wf-toc__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--weui-FG-1);
+}
+
+.wf-toc__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--weui-FG-2);
+  background: transparent;
+}
+
+.wf-toc__close:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+.wf-toc__list {
+  margin: 0;
+  padding: 0 4px 6px;
+  list-style: none;
+  counter-reset: none;
+}
+
+.wf-toc__item {
+  margin: 0;
+}
+
+.wf-toc__item a {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--weui-FG-0);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.wf-toc__item a:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+/* 层级缩进：h3 缩进，h4 再缩进 */
+.wf-toc__item--h3 a {
+  padding-left: 24px;
+  font-size: 12.5px;
+  color: var(--weui-FG-1);
+}
+
+.wf-toc__item--h4 a {
+  padding-left: 38px;
+  font-size: 12px;
+  color: var(--weui-FG-2);
+}
+
+/* 当前所在章节高亮 */
+.wf-toc__item.is-active a {
+  color: var(--weui-BRAND);
+  background-color: var(--weui-BRAND-LIGHT, rgba(7, 193, 96, 0.1));
+  font-weight: 500;
+}
+
+/* 外观设置面板 */
+.wf-fab__panel {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) scale(0.96);
+  transform-origin: right center;
+  min-width: 132px;
+  box-sizing: border-box;
+  padding: 6px;
+  border-radius: 12px;
+  background-color: var(--weui-BG-2);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.wf-fab__panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) scale(1);
+}
+
+.wf-fab__panel-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 8px 4px 10px;
+}
+
+.wf-fab__panel-title {
+  font-size: 12px;
+  color: var(--weui-FG-2);
+}
+
+.wf-fab__panel-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--weui-FG-2);
+  background: transparent;
+}
+
+.wf-fab__panel-close:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+.wf-fab__opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: left;
+  color: var(--weui-FG-0);
+  background: transparent;
+}
+
+.wf-fab__opt:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+.wf-fab__opt .wf-fab__check {
+  flex: none;
+  color: var(--weui-BRAND);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.wf-fab__opt.is-active {
+  color: var(--weui-BRAND);
+  font-weight: 500;
+}
+
+.wf-fab__opt.is-active .wf-fab__check {
+  opacity: 1;
+}
+
+/* PC 端：不吸附屏幕边缘，改为「容器右缘 ↔ 屏幕右缘」之间的黄金分割点悬浮圆球，
+   **黄金分割靠右**（按钮靠近屏幕右缘一侧）。
+   - S = (100vw - 640px)/2 是 640px 内容容器右缘到屏幕右缘的距离；
+   - 按钮**中心**到屏幕右缘 = 0.382·S（短段，靠屏幕），
+     中心到容器右缘 = 0.618·S（长段）；
+   - right 是「元素右缘到屏幕右缘」，要再减去半个按钮宽（48/2=24px）；
+   - S 很小时用 max() 兜底 24px，避免贴到屏幕边；
+   - 形状恢复成悬浮圆球（贴边半圆片只留给移动端）。 */
+@media (min-width: 641px) {
+  .wf-fab {
+    right: max(24px, calc((100vw - 640px) / 2 * 0.382 - 24px));
+    gap: 12px;
+  }
+
+  .wf-fab__btn {
+    width: 48px;
+    height: 48px;
+    border: 1px solid transparent; /* 恢复四周边框（不再贴边） */
+    border-right: 1px solid transparent;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  }
+
+  .wf-fab__btn:hover {
+    color: var(--weui-BRAND);
+    transform: translateY(-2px);
+  }
+
+  .wf-fab__btn--top {
+    transform: translateX(24px);
+  }
+
+  .wf-fab__btn--top.is-on {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wf-fab__btn,
+  .wf-fab__panel {
+    transition: none;
+  }
+}
+
+/* ============================================================
+ * 音乐播放器（自研，不依赖 APlayer）
+ * - 触发按钮 .wf-fab__btn--music 复用 FAB 视觉。
+ * - 面板 .wf-music 在按钮左侧展开；颜色全部走 WeUI CSS 变量 → 自动跟随亮/暗。
+ * - 列表自身滚动（max-height），绝不溢出面板/屏幕。
+ * - 贴底歌词 .wf-lrc 固定在视口底部。
+ * ============================================================ */
+
+.wf-music {
+  position: absolute;
+  right: calc(100% + 10px);
+  /* 面板从 FAB 顶部向下展开（贴着按钮往下长），而不是钉在屏幕上方。
+     .wf-fab 在 top:38.2%，所以可用高度约为视口剩余的下方空间，留点边距即可，
+     绝不超出屏幕底部。 */
+  top: 0;
+  /* 面板宽度：桌面最多 300px；窄屏（如 iPhone SE 320px）必须保证不越过屏幕左缘。
+     面板右缘 = 视口右侧 - FAB(46) - 间隙(10) ≈ 100vw - 56；再留 ~16px 安全边，
+     故最大宽度取 100vw - 72px。（用 vw 而非 % 会包含滚动条宽度，所以必须显式预留） */
+  width: min(300px, calc(100vw - 72px));
+  box-sizing: border-box;
+  max-height: calc(61.8vh - 16px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  color: var(--weui-FG-0);
+  background-color: var(--weui-BG-2);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.96);
+  transform-origin: right top;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  overflow: hidden;
+}
+
+.wf-music.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.wf-music__hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px 4px 14px;
+  flex: none;
+}
+
+.wf-music__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--weui-FG-1);
+}
+
+.wf-music__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--weui-FG-2);
+  background: transparent;
+}
+
+.wf-music__close:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+/* 当前曲：封面 + 曲名/歌手 */
+.wf-music__now {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 14px 8px;
+  flex: none;
+}
+
+.wf-music__cover {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: var(--weui-FG-3);
+  background-size: cover;
+  background-position: center;
+}
+
+.wf-music__meta {
+  min-width: 0;
+}
+
+.wf-music__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--weui-FG-0);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wf-music__artist {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--weui-FG-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 进度条 */
+.wf-music__progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px 4px;
+  flex: none;
+}
+
+.wf-music__time {
+  flex: none;
+  font-size: 11px;
+  color: var(--weui-FG-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.wf-music__range {
+  flex: 1;
+  min-width: 0;
+  height: 3px;
+  margin: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 3px;
+  /* 双层轨道：底层灰（未播放），上层品牌色按 --wf-music-seek 填充（已播放部分着颜色） */
+  background-image:
+    linear-gradient(var(--weui-BRAND), var(--weui-BRAND)),
+    linear-gradient(var(--weui-FG-3), var(--weui-FG-3));
+  background-repeat: no-repeat;
+  background-size: var(--wf-music-seek, 0%) 100%, 100% 100%;
+  background-position: left center, center;
+  outline: none;
+}
+
+.wf-music__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--weui-BRAND);
+}
+
+.wf-music__range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--weui-BRAND);
+}
+
+.wf-music__range::-moz-range-progress {
+  height: 3px;
+  border-radius: 3px;
+  background-color: var(--weui-BRAND);
+}
+
+/* 控制按钮 */
+.wf-music__ctrl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 4px 14px 10px;
+  flex: none;
+}
+
+.wf-music__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  color: var(--weui-FG-1);
+  background: transparent;
+}
+
+.wf-music__btn:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+/* 播放器内的图标用 [hidden] 控制显隐。
+   注意：浏览器对 <svg hidden> 的默认样式是 visibility:hidden（仍占布局空间），
+   会让隐藏的图标和显示的图标并排、看起来像「两个图标叠一起」。这里强制 display:none。 */
+.wf-music svg[hidden] {
+  display: none !important;
+}
+
+.wf-music__btn--play {
+  width: 44px;
+  height: 44px;
+  color: #fff;
+  background-color: var(--weui-BRAND);
+}
+
+.wf-music__btn--play:active {
+  opacity: 0.9;
+}
+
+.wf-music__btn--mode {
+  color: var(--weui-FG-1);
+}
+
+.wf-music__btn--mode svg {
+  display: block;
+}
+
+/* 歌词开关：图标改为汉字「词」 */
+.wf-music__lyric-word {
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* 歌词开关：开=品牌色高亮，关=变暗（让用户一眼看出当前状态） */
+.wf-music__btn[aria-pressed='true'] {
+  color: var(--weui-BRAND);
+}
+
+.wf-music__btn[aria-pressed='false'] {
+  color: var(--weui-FG-3);
+}
+
+
+/* 歌曲列表：自身滚动，绝不溢出 */
+/* 歌曲列表：自身滚动；高度交给面板 flex 分配（不再单独设 max-height，
+   面板已限制总高，这样列表会自适应、绝不溢出屏幕） */
+.wf-music__list {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 4px 6px 6px;
+  list-style: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid var(--weui-FG-3);
+}
+
+.wf-music__item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.wf-music__item:active {
+  background-color: var(--weui-BG-COLOR-ACTIVE, rgba(0, 0, 0, 0.05));
+}
+
+.wf-music__item.is-active {
+  color: var(--weui-BRAND);
+  font-weight: 500;
+  background-color: var(--weui-BRAND-LIGHT, rgba(7, 193, 96, 0.1));
+}
+
+/* 封面小图（懒加载） */
+.wf-music__item-thumb {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: var(--weui-FG-3);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.08));
+}
+
+.wf-music__item-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 文字区：歌名一行、专辑·作者一行 */
+.wf-music__item-box {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wf-music__item-name {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wf-music__item-meta {
+  min-width: 0;
+  font-size: 11.5px;
+  color: var(--weui-FG-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wf-music__item.is-active .wf-music__item-meta {
+  color: inherit;
+  opacity: 0.8;
+}
+
+/* 定位到当前项时的短暂高亮反馈 */
+.wf-music__item.is-locating {
+  animation: wf-music-locate-flash 0.9s ease;
+}
+
+@keyframes wf-music-locate-flash {
+  0%   { background-color: var(--weui-BRAND-LIGHT, rgba(7, 193, 96, 0.22)); }
+  100% { background-color: transparent; }
+}
+
+/* 列表容器：作为定位悬浮按钮的定位参照 */
+.wf-music__listwrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+
+/* 定位当前播放的圆形悬浮按钮（右下角） */
+.wf-music__locate {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  z-index: 3;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  color: var(--weui-BRAND);
+  background-color: var(--weui-BG-5, var(--weui-BG-2));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  opacity: 0.92;
+}
+
+.wf-music__locate:active {
+  transform: scale(0.94);
+  opacity: 1;
+}
+
+/* 加载失败的曲目：置灰 + 名字带删除线提示 */
+.wf-music__item.is-failed {
+  opacity: 0.5;
+}
+
+.wf-music__item.is-failed .wf-music__item-name {
+  text-decoration: line-through;
+}
+
+.wf-music__tip {
+  padding: 16px 8px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--weui-FG-2);
+}
+
+/* 暗色下的细描边 */
+html[data-wf-theme='dark'] .wf-music,
+body[data-weui-theme='dark'] .wf-music {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- 贴底歌词（自研单行，全套动效仿明月浩空 myhkw.cn）----------
+   结构：.wf-lrc 容器（贴底，整条滑入/滑出）
+        └ .wf-lrc__line （当前行 is-cur / 退场行 is-out）
+            ├ .wf-lrc__base  底层暗字（未唱到的字，半透明白）
+            └ .wf-lrc__hl    上层亮字（overflow:hidden，逐字 em 宽度 0→100% 扫过）
+   动效：① 逐字扫过 ② 切行 scale+opacity .5s ③ 整条滑入 ④ 逐行分色（男/女/合）⑤ 逐字入场。 */
+.wf-lrc {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 880;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 16px env(safe-area-inset-bottom, 0px);
+  text-align: center;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.66), rgba(0, 0, 0, 0));
+  /* ③ 整条歌词栏滑入/滑出：默认沉在视口下方，.is-on 时滑上来（仿 myhkw 的 #myhkKsc） */
+  transform: translate3d(0, 100%, 0);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* 暗色模式：整条是深色背景，改成**很淡的亮色渐变**与歌词形成对比（强度与亮色下的黑色渐变相当，不刺眼） */
+html[data-wf-theme='dark'] .wf-lrc,
+body[data-weui-theme='dark'] .wf-lrc {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0));
+}
+
+.wf-lrc.is-on {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+/* 单行容器：同一时刻只保留「当前行 + 正在退场的上一行」，两行叠在同一位置 */
+.wf-lrc__line {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+  height: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  /* ② 切行进入：整行 opacity 0→1 + scale(1.01)→1（.5s）；退场回到静息态。
+     逐字由上层的 clip-path 扫过驱动；逐字入场由底层 letterfx 驱动。 */
+  opacity: 0;
+  transform: scale(1.01);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.wf-lrc__line.is-cur {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 退场：淡出 + 轻微缩小回静息态（停留 500ms 后才切换） */
+.wf-lrc__line.is-out {
+  opacity: 0;
+  transform: scale(1.01);
+}
+
+/* 底层/上层：文字内容用 inline-block 收缩到内容宽度；裁剪交给外层 .wf-lrc__line。
+   水平位置完全由 JS 给出的 --wf-lrc-scroll（px）控制：
+   · 短行：JS 给正值把它居中；
+   · 超长行：从 0 开始（左对齐，保证开头不被裁掉），随逐字向左滚动。
+   两层必须用**同一个** --wf-lrc-scroll，才能保持逐字对齐。 */
+.wf-lrc__base,
+.wf-lrc__hl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  transform: translateX(var(--wf-lrc-scroll, 0px));
+  transition: transform 0.28s ease;
+}
+
+.wf-lrc__base {
+  color: rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+}
+
+/* 上层：已唱到的字（高亮）。整层 overflow:hidden，内部每个字 em 宽度由 JS 逐个推到 100%。 */
+.wf-lrc__hl {
+  /* 默认用主题品牌色（逐行分色时由 JS 覆盖为 男蓝/女红/合品红） */
+  color: var(--weui-BRAND);
+  /* 右下角两层投影：近处硬边压出厚度 + 稍远柔影，做出立体感（不加辉光） */
+  text-shadow:
+    1px 1px 0 rgba(0, 0, 0, 0.55),
+    2px 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* 暗色模式：同样的右下角两层投影，暗底上适当加深，立体感更足 */
+html[data-wf-theme='dark'] .wf-lrc__hl,
+body[data-weui-theme='dark'] .wf-lrc__hl {
+  color: var(--weui-BRAND);
+  text-shadow:
+    1px 1px 0 rgba(0, 0, 0, 0.95),
+    2px 3px 4px rgba(0, 0, 0, 0.85);
+}
+
+.wf-lrc__base-ch,
+.wf-lrc__hl-ch {
+  font-style: normal;
+  display: inline-block;
+  vertical-align: top;
+  /* 两层逐字度量必须完全一致，覆盖层才严丝合缝对齐 */
+  letter-spacing: inherit;
+  word-spacing: inherit;
+}
+
+/* 上层逐字：布局宽度与底层一致（不改变排版），用 clip-path 从左往右揭示，
+   所以高亮扫过时不会整行左右漂移。transition 让逐字推进更顺滑。 */
+.wf-lrc__hl-ch {
+  clip-path: inset(0 100% 0 0);
+  -webkit-clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.08s linear, -webkit-clip-path 0.08s linear;
+}
+
+/* ⑤ letterfx 逐字入场（三档，仿 myhkw）：
+   · wave   —— 短句（≤6 字）：逐字轻微上浮 + 淡入
+   · ticker —— 长句、语速较快（每字 ≤500ms）：逐字横向滑入（打字机）
+   · smear  —— 长句、语速较慢（每字 >500ms）：逐字模糊抹过 + 淡入
+   均施加在底层暗字上（可见），与逐字扫过并发。 */
+@keyframes wf-lrc-fx-wave {
+  from { opacity: 0; transform: translateY(0.6em); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes wf-lrc-fx-ticker {
+  from { opacity: 0; transform: translateX(-0.5em); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes wf-lrc-fx-smear {
+  from { opacity: 0; filter: blur(4px); transform: translateX(0.35em) scaleX(1.15); }
+  to   { opacity: 1; filter: blur(0); transform: translateX(0) scaleX(1); }
+}
+
+/* ---------- 逐行分色（按 myhkw 原始映射：男→m蓝 / 女→g红 / 合→t品红）---------- */
+.wf-lrc__line.lrc-m .wf-lrc__hl,
+.wf-lrc__line.lrc-m .wf-lrc__base-ch { color: #3b82f6; }
+.wf-lrc__line.lrc-g .wf-lrc__hl,
+.wf-lrc__line.lrc-g .wf-lrc__base-ch { color: #ff4d4f; }
+.wf-lrc__line.lrc-t .wf-lrc__hl,
+.wf-lrc__line.lrc-t .wf-lrc__base-ch { color: #ff5ac8; }
+
+.wf-lrc__line.lrc-m .wf-lrc__base,
+.wf-lrc__line.lrc-g .wf-lrc__base,
+.wf-lrc__line.lrc-t .wf-lrc__base { opacity: 0.45; }
+
+
+
+
